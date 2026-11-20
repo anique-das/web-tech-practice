@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Student Form Validation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        form {
+            width: 350px;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+
+        fieldset {
+            border: 1px solid #999;
+            padding: 15px;
+        }
+
+        legend {
+            font-weight: bold;
+        }
+
+        div {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 6px;
+            box-sizing: border-box;
+        }
+
+        span {
+            color: red;
+            font-size: 12px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <form id="studentForm">
+
+        <fieldset>
+            <legend>Student Registration</legend>
+
+            <!-- Name Field -->
+            <div>
+                <label for="fullName">Name:</label>
+                <input type="text" id="fullName">
+                <span id="nameError"></span>
+            </div>
+
+            <!-- Email Field -->
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email">
+                <span id="emailError"></span>
+            </div>
+
+            <!-- Age Field -->
+            <div>
+                <label for="age">Age:</label>
+                <input type="number" id="age">
+                <span id="ageError"></span>
+            </div>
+
+            <!-- Gender -->
+            <div>
+                <label>Gender:</label>
+                <input type="radio" name="gender" value="Male"> Male
+                <input type="radio" name="gender" value="Female"> Female
+                <span id="genderError"></span>
+            </div>
+
+            <!-- Department -->
+            <div>
+                <label for="department">Department:</label>
+                <select id="department">
+                    <option value="">--Select--</option>
+                    <option value="CSE">CSE</option>
+                    <option value="EEE">EEE</option>
+                </select>
+                <span id="deptError"></span>
+            </div>
+
+            <!-- Terms Checkbox -->
+            <div>
+                <input type="checkbox" id="terms">
+                I agree to terms
+                <span id="termsError"></span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+
+        </fieldset>
+    </form>
+
+    <script>
+
+        document.getElementById("studentForm").addEventListener("submit",
+        function(event) {
+
+            let isValid = true;
+
+            // Clear previous errors
+            document.getElementById("nameError").textContent = "";
+            document.getElementById("emailError").textContent = "";
+            document.getElementById("ageError").textContent = "";
+            document.getElementById("genderError").textContent = "";
+            document.getElementById("deptError").textContent = "";
+            document.getElementById("termsError").textContent = "";
+
+            // 1. Name Check
+            let name = document.getElementById("fullName").value.trim();
+
+            if (name === "") {
+                document.getElementById("nameError").textContent =
+                "Name is required.";
+
+                isValid = false;
+            }
+
+            // 2. Email Check
+            let email = document.getElementById("email").value.trim();
+
+            if (email === "" || !email.includes("@")) {
+                document.getElementById("emailError").textContent =
+                "Valid email with '@' is required.";
+
+                isValid = false;
+            }
+
+            // 3. Age Check
+            let age = document.getElementById("age").value;
+
+            if (age === "" || Number(age) < 18 || Number(age) > 100) {
+                document.getElementById("ageError").textContent =
+                "Age must be between 18 and 100.";
+
+                isValid = false;
+            }
+
+            // 4. Gender Check
+            let gender = document.querySelector(
+                'input[name="gender"]:checked'
+            );
+
+            if (gender === null) {
+                document.getElementById("genderError").textContent =
+                "Please select gender.";
+
+                isValid = false;
+            }
+
+            // 5. Department Check
+            let dept = document.getElementById("department").value;
+
+            if (dept === "") {
+                document.getElementById("deptError").textContent =
+                "Please select a department.";
+
+                isValid = false;
+            }
+
+            // 6. Checkbox Check
+            let terms = document.getElementById("terms").checked;
+
+            if (!terms) {
+                document.getElementById("termsError").textContent =
+                "You must agree to terms.";
+
+                isValid = false;
+            }
+
+            // Stop submission if invalid
+            if (!isValid) {
+                event.preventDefault();
+            }
+            else {
+                alert("Form submitted successfully!");
+                event.preventDefault();
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
